@@ -1,0 +1,242 @@
+-- MySQL Administrator dump 1.4
+--
+-- ------------------------------------------------------
+-- Server version	5.7.12-log
+
+
+/*!40101 SET @OLD_CHARACTER_SET_CLIENT=@@CHARACTER_SET_CLIENT */;
+/*!40101 SET @OLD_CHARACTER_SET_RESULTS=@@CHARACTER_SET_RESULTS */;
+/*!40101 SET @OLD_COLLATION_CONNECTION=@@COLLATION_CONNECTION */;
+/*!40101 SET NAMES utf8 */;
+
+/*!40014 SET @OLD_UNIQUE_CHECKS=@@UNIQUE_CHECKS, UNIQUE_CHECKS=0 */;
+/*!40014 SET @OLD_FOREIGN_KEY_CHECKS=@@FOREIGN_KEY_CHECKS, FOREIGN_KEY_CHECKS=0 */;
+/*!40101 SET @OLD_SQL_MODE=@@SQL_MODE, SQL_MODE='NO_AUTO_VALUE_ON_ZERO' */;
+
+
+--
+-- Create schema foody
+--
+
+CREATE DATABASE IF NOT EXISTS foody;
+USE foody;
+
+--
+-- Definition of table `adm`
+--
+
+DROP TABLE IF EXISTS `adm`;
+CREATE TABLE `adm` (
+  `Adm_Uname` varchar(45) NOT NULL,
+  `Adm_Upass` varchar(45) DEFAULT NULL,
+  `Adrs` varchar(45) DEFAULT NULL,
+  `Contact` varchar(10) DEFAULT NULL,
+  PRIMARY KEY (`Adm_Uname`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+
+--
+-- Dumping data for table `adm`
+--
+
+/*!40000 ALTER TABLE `adm` DISABLE KEYS */;
+INSERT INTO `adm` (`Adm_Uname`,`Adm_Upass`,`Adrs`,`Contact`) VALUES 
+ ('pragati','11362','nit patna','8292944816');
+/*!40000 ALTER TABLE `adm` ENABLE KEYS */;
+
+
+--
+-- Definition of table `b_hall`
+--
+
+DROP TABLE IF EXISTS `b_hall`;
+CREATE TABLE `b_hall` (
+  `H_No` int(11) NOT NULL AUTO_INCREMENT,
+  `Adrs` varchar(45) DEFAULT NULL,
+  `Avail` varchar(30) DEFAULT NULL,
+  `D_Avail` varchar(15) DEFAULT NULL,
+  PRIMARY KEY (`H_No`)
+) ENGINE=InnoDB AUTO_INCREMENT=4 DEFAULT CHARSET=utf8;
+
+--
+-- Dumping data for table `b_hall`
+--
+
+/*!40000 ALTER TABLE `b_hall` DISABLE KEYS */;
+INSERT INTO `b_hall` (`H_No`,`Adrs`,`Avail`,`D_Avail`) VALUES 
+ (1,'FoodMania NarkelBagan,Kolkata','Booked','Today'),
+ (3,'FoodMania,Auangabad Bihar','Booked','Today');
+/*!40000 ALTER TABLE `b_hall` ENABLE KEYS */;
+
+
+--
+-- Definition of table `buk`
+--
+
+DROP TABLE IF EXISTS `buk`;
+CREATE TABLE `buk` (
+  `B_No` int(10) NOT NULL AUTO_INCREMENT,
+  `Usr_Id` int(10) DEFAULT NULL,
+  `H_No` int(11) DEFAULT NULL,
+  `dat` varchar(16) DEFAULT NULL,
+  PRIMARY KEY (`B_No`),
+  KEY `f1` (`Usr_Id`),
+  KEY `f2` (`H_No`),
+  CONSTRAINT `buk_ibfk_1` FOREIGN KEY (`Usr_Id`) REFERENCES `usr` (`Usr_Id`),
+  CONSTRAINT `buk_ibfk_2` FOREIGN KEY (`H_No`) REFERENCES `b_hall` (`H_No`)
+) ENGINE=InnoDB AUTO_INCREMENT=4 DEFAULT CHARSET=utf8;
+
+--
+-- Dumping data for table `buk`
+--
+
+/*!40000 ALTER TABLE `buk` DISABLE KEYS */;
+INSERT INTO `buk` (`B_No`,`Usr_Id`,`H_No`,`dat`) VALUES 
+ (1,61,3,'2016-06-15'),
+ (3,61,1,'14/06/16');
+/*!40000 ALTER TABLE `buk` ENABLE KEYS */;
+
+
+--
+-- Definition of table `emp`
+--
+
+DROP TABLE IF EXISTS `emp`;
+CREATE TABLE `emp` (
+  `Emp_Id` int(11) NOT NULL AUTO_INCREMENT,
+  `Ename` varchar(45) DEFAULT NULL,
+  `Emp_Uname` varchar(45) DEFAULT NULL,
+  `Emp_Upass` varchar(45) DEFAULT NULL,
+  `Adrs` varchar(45) DEFAULT NULL,
+  `Designation` varchar(45) DEFAULT NULL,
+  `Outlet` varchar(45) DEFAULT NULL,
+  `Salary` int(10) DEFAULT NULL,
+  `Contact` int(10) DEFAULT NULL,
+  `DOB` varchar(15) DEFAULT NULL,
+  PRIMARY KEY (`Emp_Id`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+
+--
+-- Dumping data for table `emp`
+--
+
+/*!40000 ALTER TABLE `emp` DISABLE KEYS */;
+/*!40000 ALTER TABLE `emp` ENABLE KEYS */;
+
+
+--
+-- Definition of table `items`
+--
+
+DROP TABLE IF EXISTS `items`;
+CREATE TABLE `items` (
+  `I_Code` int(10) NOT NULL AUTO_INCREMENT,
+  `I_Name` varchar(20) DEFAULT NULL,
+  `I_Price` varchar(10) DEFAULT NULL,
+  PRIMARY KEY (`I_Code`)
+) ENGINE=InnoDB AUTO_INCREMENT=10 DEFAULT CHARSET=utf8;
+
+--
+-- Dumping data for table `items`
+--
+
+/*!40000 ALTER TABLE `items` DISABLE KEYS */;
+INSERT INTO `items` (`I_Code`,`I_Name`,`I_Price`) VALUES 
+ (5,'foody','100'),
+ (6,'cheesy_Maniac','100'),
+ (7,'Hearby_Maniac','99'),
+ (8,'Loaded_Maniac','199'),
+ (9,'spicy_Maniac','100');
+/*!40000 ALTER TABLE `items` ENABLE KEYS */;
+
+
+--
+-- Definition of table `odr`
+--
+
+DROP TABLE IF EXISTS `odr`;
+CREATE TABLE `odr` (
+  `O_Code` int(10) NOT NULL AUTO_INCREMENT,
+  `O_Date` varchar(16) DEFAULT NULL,
+  `O_Bill` varchar(10) DEFAULT NULL,
+  `Usr_Id` int(10) DEFAULT NULL,
+  `O_Time` varchar(45) DEFAULT NULL,
+  `D_Time` varchar(10) DEFAULT NULL,
+  `Details` varchar(45) DEFAULT NULL,
+  PRIMARY KEY (`O_Code`),
+  KEY `f_key` (`Usr_Id`),
+  CONSTRAINT `odr_ibfk_1` FOREIGN KEY (`Usr_Id`) REFERENCES `usr` (`Usr_Id`)
+) ENGINE=InnoDB AUTO_INCREMENT=35 DEFAULT CHARSET=utf8;
+
+--
+-- Dumping data for table `odr`
+--
+
+/*!40000 ALTER TABLE `odr` DISABLE KEYS */;
+INSERT INTO `odr` (`O_Code`,`O_Date`,`O_Bill`,`Usr_Id`,`O_Time`,`D_Time`,`Details`) VALUES 
+ (32,'14/06/16','105',61,'05:29:46',NULL,'Oder Placed'),
+ (33,'14/06/16','84',61,'09:37:35',NULL,'Oder Placed'),
+ (34,'14/06/16','105',63,'10:27:34',NULL,'Oder Placed');
+/*!40000 ALTER TABLE `odr` ENABLE KEYS */;
+
+
+--
+-- Definition of table `uodr`
+--
+
+DROP TABLE IF EXISTS `uodr`;
+CREATE TABLE `uodr` (
+  `O_Code` int(10) DEFAULT NULL,
+  `I_Code` int(10) DEFAULT NULL,
+  KEY `f1` (`O_Code`),
+  KEY `f2` (`I_Code`),
+  CONSTRAINT `uodr_ibfk_1` FOREIGN KEY (`O_Code`) REFERENCES `odr` (`O_Code`),
+  CONSTRAINT `uodr_ibfk_2` FOREIGN KEY (`I_Code`) REFERENCES `items` (`I_Code`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+
+--
+-- Dumping data for table `uodr`
+--
+
+/*!40000 ALTER TABLE `uodr` DISABLE KEYS */;
+/*!40000 ALTER TABLE `uodr` ENABLE KEYS */;
+
+
+--
+-- Definition of table `usr`
+--
+
+DROP TABLE IF EXISTS `usr`;
+CREATE TABLE `usr` (
+  `Usr_Id` int(10) NOT NULL AUTO_INCREMENT,
+  `Uname` varchar(45) DEFAULT NULL,
+  `Upass` varchar(45) DEFAULT NULL,
+  `adrs` varchar(45) DEFAULT NULL,
+  `City` varchar(45) DEFAULT NULL,
+  `PinCode` varchar(6) DEFAULT NULL,
+  `Mobile_No` varchar(10) DEFAULT NULL,
+  `DOB` varchar(15) DEFAULT NULL,
+  `Points` int(10) DEFAULT NULL,
+  PRIMARY KEY (`Usr_Id`)
+) ENGINE=InnoDB AUTO_INCREMENT=64 DEFAULT CHARSET=utf8;
+
+--
+-- Dumping data for table `usr`
+--
+
+/*!40000 ALTER TABLE `usr` DISABLE KEYS */;
+INSERT INTO `usr` (`Usr_Id`,`Uname`,`Upass`,`adrs`,`City`,`PinCode`,`Mobile_No`,`DOB`,`Points`) VALUES 
+ (61,'Pragati','kumari','Sudama Sadan','Delhi','824101','8292944816','1996-11-17',0),
+ (62,'deepa','dipu','Narkel Bagan,Kolkata','Kolkata','824101','8292944816','1990-08-23',0),
+ (63,'eeeee','eeeee','eeeee','Kolkata','700156','9939350600','2016-06-03',0);
+/*!40000 ALTER TABLE `usr` ENABLE KEYS */;
+
+
+
+
+/*!40101 SET SQL_MODE=@OLD_SQL_MODE */;
+/*!40014 SET FOREIGN_KEY_CHECKS=@OLD_FOREIGN_KEY_CHECKS */;
+/*!40014 SET UNIQUE_CHECKS=@OLD_UNIQUE_CHECKS */;
+/*!40101 SET CHARACTER_SET_CLIENT=@OLD_CHARACTER_SET_CLIENT */;
+/*!40101 SET CHARACTER_SET_RESULTS=@OLD_CHARACTER_SET_RESULTS */;
+/*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
+/*!40101 SET CHARACTER_SET_CLIENT=@OLD_CHARACTER_SET_CLIENT */;
